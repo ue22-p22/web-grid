@@ -31,3 +31,14 @@ h2 {
 #instructions {
   width: 600px;
 }
+
+#grid .hovered {
+  background-color: blue;
+}
+
+.buttons {
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-evenly;
+}
