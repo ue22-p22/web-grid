@@ -7,18 +7,27 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById('btn-del-line').addEventListener(
     'click', delLine)
 
-  for (const div of document.querySelectorAll('#grid>div')) {
-    initDiv(div)
-  }
+  // strategy #2: one single event handler for the whole page
+  document.getElementById('grid')
+    .addEventListener('click',
+      (event) => {
+        // this is to avoid clicks that fall between boxes
+        if (event.target.id == "grid") return
+        setRandomColor(event.target)
+        updateTotals()
+      })
+  document.getElementById('grid')
+    .addEventListener('mouseover',
+      (event) => {
+        // likewise, we discard events on the grid element itself
+        if (event.target.id == "grid") return
+        setHoverColor(event.target)
+        updateTotals()
+      })
+
   updateTotals()
 })
 
-function initDiv(div) {
-  div.addEventListener('click',
-    () => { setRandomColor(div); updateTotals() })
-  div.addEventListener('mouseenter',
-    () => { setHoverColor(div); updateTotals() })
-}
 
 /**
  * Cleans up the document so that the exercise is easier.
@@ -41,9 +50,7 @@ function initialCleanup() {
 function addLine() {
   const grid = document.getElementById('grid')
   for (let i = 0; i < 10; i++) {
-    let div = document.createElement('div')
-    grid.append(div)
-    initDiv(div)
+    grid.append(document.createElement('div'))
   }
   updateTotals()
 }
